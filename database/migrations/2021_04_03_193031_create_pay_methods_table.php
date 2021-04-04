@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCartStatusesTable extends Migration
+class CreatePayMethodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateCartStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cart_statuses', function (Blueprint $table) {
+        Schema::create('pay_methods', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->string('status'); //1-Activo, 2-Pendiente, 3-Aprobado, 4-Cancelado, 5-Finalizado
-
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateCartStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cart_statuses');
+        Schema::dropIfExists('pay_methods');
     }
 }

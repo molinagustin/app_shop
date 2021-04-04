@@ -2,19 +2,19 @@
 
 Hola <b>{{ $cart->user->name }}</b>, ¿cómo estas?<br>
 Te contamos que tu pedido <b>#{{ $cart->id }}</b> se encuenta @switch($cart->status->status)
-@case('Pending')
+@case('Pendiente')
 <b style="text-transform: uppercase;color:#e6b11a;">{{ $cart->status->status }}</b>
 @break
 
-@case('Approved')
+@case('Aprobado')
 <b style="text-transform: uppercase;color:#00c700;">{{ $cart->status->status }}</b>
 @break
 
-@case('Cancelled')
+@case('Cancelado')
 <b style="text-transform: uppercase;color:red;">{{ $cart->status->status }}</b>
 @break
 
-@case('Finished')
+@case('Finalizado')
 <b style="text-transform: uppercase;color:#007ec7;">{{ $cart->status->status }}</b>
 @break
 @endswitch>

@@ -135,6 +135,20 @@
                 </div>
 
                 <div @if (Request::url()==route('cart')) class='tab-pane active' @else class='tab-pane' @endif id="{{ url('/home/cart') }}">
+                    @if (session('error'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            {{ session('error') }}
+                        </ul>
+                    </div>
+                    @endif
+                    @if (session('cancelled'))
+                    <div class="alert alert-warning">
+                        <ul>
+                            {{ session('cancelled') }}
+                        </ul>
+                    </div>
+                    @endif
                     <livewire:cart-table />
                 </div>
 
@@ -170,19 +184,19 @@
                                                     <li class="list-group-item">{{ \Carbon\Carbon::parse($cart->order_date)->format('d/m/Y H:i:s') }}</li>
                                                     <li class="list-group-item">{{ \Carbon\Carbon::parse($cart->updated_at)->format('d/m/Y H:i:s') }}</li>
                                                     <li class="list-group-item" @switch($cart->status->status)
-                                                        @case('Pending')
+                                                        @case('Pendiente')
                                                         style="text-transform: uppercase;color:#e6b11a;"
                                                         @break
 
-                                                        @case('Approved')
+                                                        @case('Aprobado')
                                                         style="text-transform: uppercase;color:#00c700;"
                                                         @break
 
-                                                        @case('Cancelled')
+                                                        @case('Cancelado')
                                                         style="text-transform: uppercase;color:red;"
                                                         @break
 
-                                                        @case('Finished')
+                                                        @case('Finalizado')
                                                         style="text-transform: uppercase;color:#007ec7;"
                                                         @break
 

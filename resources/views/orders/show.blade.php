@@ -44,25 +44,29 @@
                             <li class="list-group-item itemLista">Fecha Entrega: <b>{{ $cart->arrived_date ? \Carbon\Carbon::parse($cart->arrived_date)->format('d/m/Y H:i:s') : 'Sin Entregar' }}</b></li>
                             <li class="list-group-item itemLista">Última Modificación: <b>{{ \Carbon\Carbon::parse($cart->updated_at)->format('d/m/Y H:i:s') }}</b></li>
                             <li class="list-group-item itemLista">Estado: <b><span @switch($cart->status->status)
-                                        @case('Pending')
+                                        @case('Pendiente')
                                         style="text-transform: uppercase;color:#e6b11a;"
                                         @break
 
-                                        @case('Approved')
+                                        @case('Aprobado')
                                         style="text-transform: uppercase;color:#00c700;"
                                         @break
 
-                                        @case('Cancelled')
+                                        @case('Cancelado')
                                         style="text-transform: uppercase;color:red;"
                                         @break
 
-                                        @case('Finished')
+                                        @case('Finalizado')
                                         style="text-transform: uppercase;color:#007ec7;"
                                         @break
 
                                         @default
                                         style="text-transform: uppercase;"
                                         @endswitch>{{ $cart->status->status }}</span></b></li>
+                            @if ($cart->status_id == 5 || $cart->payed)
+                            <li class="list-group-item itemLista">Forma de Pago: <b>{{ $cart->payMethod->name }}</b></li>
+                            <li class="list-group-item itemLista">Fecha de Pago: <b>{{ \Carbon\Carbon::parse($cart->pay_date)->format('d/m/Y H:i:s')}}</b></li>
+                            @endif
                         </ul>
                     </div>
                 </div>

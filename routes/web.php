@@ -57,6 +57,7 @@ Route::post('/order', 'CartController@update'); //Actualiza el estado del carro 
 
 //PayPal
 Route::get('/paypal/pay', 'PaypalPaymentController@pay');
+Route::get('/paypal/cancelled', 'PaypalPaymentController@cancel');
 Route::get('/paypal/status', 'PaypalPaymentController@status');
 
 //Utilizamos un middleware para asociarlo a un grupo de rutas, de esta forma se aplicara a cualquier ruta dentro del grupo elegido

@@ -7,12 +7,11 @@
 @section('styles')
 <style>
   .itemLista {
-  border: 1px solid rgba(0,0,0,.125);
-  border-right: 0;
-  border-left: 0; 
-  border-top:0;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-right: 0;
+    border-left: 0;
+    border-top: 0;
   }
-
 </style>
 @endsection
 
@@ -62,28 +61,32 @@
             <li class="list-group-item itemLista">Fecha Entrega: <b>{{ $order->arrived_date ? \Carbon\Carbon::parse($order->arrived_date)->format('d/m/Y H:i:s') : 'Sin Entregar' }}</b></li>
             <li class="list-group-item itemLista">Última Modificación: <b>{{ \Carbon\Carbon::parse($order->updated_at)->format('d/m/Y H:i:s') }}</b></li>
             <li class="list-group-item itemLista">Estado: <b><span @switch($order->status->status)
-                @case('Pending')
-                style="text-transform: uppercase;color:#e6b11a;"
-                @break
+                  @case('Pendiente')
+                  style="text-transform: uppercase;color:#e6b11a;"
+                  @break
 
-                @case('Approved')
-                style="text-transform: uppercase;color:#00c700;"
-                @break
+                  @case('Aprobado')
+                  style="text-transform: uppercase;color:#00c700;"
+                  @break
 
-                @case('Cancelled')
-                style="text-transform: uppercase;color:red;"
-                @break
+                  @case('Cancelado')
+                  style="text-transform: uppercase;color:red;"
+                  @break
 
-                @case('Finished')
-                style="text-transform: uppercase;color:#007ec7;"
-                @break
+                  @case('Finalizado')
+                  style="text-transform: uppercase;color:#007ec7;"
+                  @break
 
-                @default
-                style="text-transform: uppercase;"
-                @endswitch>{{ $order->status->status }}</span></b></li>
+                  @default
+                  style="text-transform: uppercase;"
+                  @endswitch>{{ $order->status->status }}</span></b></li>
+            @if ($order->status_id == 5 || $order->payed)
+            <li class="list-group-item itemLista">Forma de Pago: <b>{{ $order->payMethod->name }}</b></li>
+            <li class="list-group-item itemLista">Fecha de Pago: <b>{{ \Carbon\Carbon::parse($order->pay_date)->format('d/m/Y H:i:s')}}</b></li>
+            @endif
           </ul>
         </div>
-      </div>      
+      </div>
 
       <h4 class="title text-center">Datos de los Productos</h4>
 
@@ -145,7 +148,7 @@
         <hr>
 
         <!--Hace una comparacion de negacion en un arreglo, verifica que el primer parametro no sea ninguno de los parametros del segundo array-->
-        @if(!in_array($order->status->status, ['Cancelled', 'Finished']))
+        @if(!in_array($order->status->status, ['Cancelado', 'Finalizado']))
         <div class="row">
           <div class="col-sm-3 offset-3">
             <div class="form-group label-floating">
@@ -153,19 +156,19 @@
               <select class="form-control" name="status_id" onChange="mostrarDateTimePicker(this.value);" style="text-transform: uppercase;">
                 @foreach ($statuses as $status)
                 <option @switch($status->status)
-                  @case('Pending')
+                  @case('Pendiente')
                   style="color:#e6b11a;"
                   @break
 
-                  @case('Approved')
+                  @case('Aprobado')
                   style="color:#00c700;"
                   @break
 
-                  @case('Cancelled')
+                  @case('Cancelado')
                   style="color:red;"
                   @break
 
-                  @case('Finished')
+                  @case('Finalizado')
                   style="color:#007ec7;"
                   @break
                   @endswitch
@@ -174,12 +177,32 @@
                 @endforeach
               </select>
             </div>
-          </div>         
+          </div>
 
           <div class="col-sm-3" id="arrived_date_picker" style="display: none;">
             <div class="form-group label-floating">
               <label class="control-label">Fecha de Entrega:</label>
-              <input type="datetime-local" class="form-control" name="arrived_date">
+              <input type="datetime-local" class="form-control" name="arrived_date" id="timePicker1">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3 offset-3">
+            <div class="form-group label-floating" id="pay_method_picker" style="display: none;">
+              <label class="control-label">Forma de Pago</label>
+              <select class="form-control" name="pay_method_id" style="text-transform: uppercase;" @if($order->payed) disabled @endif>
+                @foreach ($pay_methods as $method)
+                <option value="{{$method->id}}" @if ($method->id == old('id', $order->pay_method_id)) selected @endif>{{ $method->name }}
+                </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-3" id="pay_date_picker" style="display: none;">
+            <div class="form-group label-floating">
+              <label class="control-label">Fecha de Pago:</label>
+              <input type="datetime-local" class="form-control" name="pay_date" id="timePicker2" @if($order->payed) value='{{ \Carbon\Carbon::parse($order->pay_date)->format('Y-m-d\TH:i:s') }}' readonly @endif>
             </div>
           </div>
         </div>
@@ -209,10 +232,19 @@
 
 <script>
   function mostrarDateTimePicker(status) {
-    if (status == "5")
+    if (status == "5") {
       $("#arrived_date_picker").show();
-    else
+      $("#pay_date_picker").show();
+      $("#pay_method_picker").show();
+      document.getElementById('timePicker1').setAttribute("required", "");
+      document.getElementById('timePicker2').setAttribute("required", "");
+    } else {
       $("#arrived_date_picker").hide();
+      $("#pay_date_picker").hide();
+      $("#pay_method_picker").hide();
+      document.getElementById('timePicker1').removeAttribute("required", "");
+      document.getElementById('timePicker2').removeAttribute("required", "");
+    }
   }
 </script>
 @endsection

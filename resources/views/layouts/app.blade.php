@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/png" href="{{secure_asset('img/alventa_icon.png')}}">
+  <link rel="icon" type="image/png" href="{{asset('img/alventa_icon.png')}}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title> @yield('tittle', 'AlVenta, tu lugar de intercambios')
 
@@ -16,7 +16,8 @@
 
 
   <!-- CSS Files -->
-  <link href="{{secure_asset('css/material-kit.css?v=2.0.7')}}" rel="stylesheet" />
+  <link href="{{asset('css/material-kit.css?v=2.0.7')}}" rel="stylesheet" />
+  <!-- <link href="{{secure_asset('css/material-kit.css?v=2.0.7')}}" rel="stylesheet" /> -->
 
   @yield('cssFiles')
 
@@ -201,22 +202,22 @@
   </div>
 
   <!--   Core JS Files   -->
-  <script src="{{secure_asset('js/core/jquery.min.js')}}" type="text/javascript"></script>
-  <script src="{{secure_asset('js/core/popper.min.js')}}" type="text/javascript"></script>
-  <script src="{{secure_asset('js/core/bootstrap-material-design')}}.min.js" type="text/javascript"></script>
-  <script src="{{secure_asset('js/plugins/moment.min.js')}}"></script>
+  <script src="{{asset('js/core/jquery.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/core/popper.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/core/bootstrap-material-design')}}.min.js" type="text/javascript"></script>
+  <script src="{{asset('js/plugins/moment.min.js')}}"></script>
   <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-  <script src="{{secure_asset('js/plugins/bootstrap-datetimepicker.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/plugins/bootstrap-datetimepicker.js')}}" type="text/javascript"></script>
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="{{secure_asset('js/plugins/nouislider.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/plugins/nouislider.min.js')}}" type="text/javascript"></script>
   <!--  Google Maps Plugin    -->
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-  <script src="{{secure_asset('js/material-kit.js?v=2.0.7')}}" type="text/javascript"></script>
+  <script src="{{asset('js/material-kit.js?v=2.0.7')}}" type="text/javascript"></script>
 
 
   <!--PARA EL BUSCADOR PREDICTIVO-->
   <!--	Plugin para el buscador predictivo -->
-  <script src="{{secure_asset('js\plugins\typeahead.bundle.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js\plugins\typeahead.bundle.min.js')}}" type="text/javascript"></script>
 
   <!--Ahora hay que inicializar el script sobre el INPUT con ID search-->
   <script>

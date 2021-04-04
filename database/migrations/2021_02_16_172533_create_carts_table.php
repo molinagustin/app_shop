@@ -19,7 +19,7 @@ class CreateCartsTable extends Migration
             $table->dateTime('order_date')->nullable();
             $table->dateTime('arrived_date')->nullable();
 
-            $table->unsignedBigInteger('status_id')->default('1'); //1-Active, 2-Pending, 3-Approved, 4-Cancelled, 5-Finished
+            $table->unsignedBigInteger('status_id')->default('1'); //1-Activo, 2-Pendiente, 3-Aprobado, 4-Cancelado, 5-Finalizado
             $table->foreign('status_id')->references('id')->on('cart_statuses');
 
             $table->unsignedBigInteger('user_id');

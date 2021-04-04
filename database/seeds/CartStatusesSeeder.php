@@ -13,23 +13,23 @@ class CartStatusesSeeder extends Seeder
     public function run()
     {
         CartStatus::create([
-            'status' => 'Active'
+            'status' => 'Activo'
         ]);
 
         CartStatus::create([
-            'status' => 'Pending'
+            'status' => 'Pendiente'
         ]);
 
         CartStatus::create([
-            'status' => 'Approved'
+            'status' => 'Aprobado'
         ]);
 
         CartStatus::create([
-            'status' => 'Cancelled'
+            'status' => 'Cancelado'
         ]);
 
         CartStatus::create([
-            'status' => 'Finished'
+            'status' => 'Finalizado'
         ]);
     }
 }

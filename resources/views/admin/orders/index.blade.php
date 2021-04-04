@@ -46,19 +46,19 @@
                 <td>{{$cart->id}}</td>
                 <td>{{ \Carbon\Carbon::parse($cart->order_date)->format('d/m/Y H:i:s') }}</td>
                 <td @switch($cart->status->status)
-                  @case('Pending')
+                  @case('Pendiente')
                   style="text-transform: uppercase;color:#e6b11a;"
                   @break
 
-                  @case('Approved')
+                  @case('Aprobado')
                   style="text-transform: uppercase;color:#00c700;"
                   @break
 
-                  @case('Cancelled')
+                  @case('Cancelado')
                   style="text-transform: uppercase;color:red;"
                   @break
 
-                  @case('Finished')
+                  @case('Finalizado')
                   style="text-transform: uppercase;color:#007ec7;"
                   @break
 

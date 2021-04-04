@@ -21,6 +21,11 @@ class Cart extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function payMethod()
+    {
+        return $this->belongsTo(PayMethod::class);
+    }
+
     //Accesor que calcula el precio total a pagar de un carro de compras ya siendo una orden
     public function getTotalAttribute()
     {
