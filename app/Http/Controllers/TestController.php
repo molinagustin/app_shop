@@ -13,7 +13,7 @@ class TestController extends Controller
         //En una variable, llamo al metodo de Eloquent ALL para traer todos los productos
        //$products = Product::all(); 
        
-       $products = Product::latest()->take(3)->get();
+       $products = Product::where('active', true)->latest()->take(3)->get();
        //dd($products);
        //Obtengo las categorias para el Dropdown Menu
        //$categories = Category::orderBy('name')->get();

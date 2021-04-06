@@ -8,18 +8,19 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\ProductImage;
 use App\Category;
+use App\Cart;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::where('active', true)->orderBy('name')->paginate(10);
         return view('admin.products.index')->with(compact('products')); //Devuelve listado de productos
     }
 
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('active', true)->orderBy('name')->get();
         return view('admin.products.create')->with(compact('categories')); //Muestra formulario
     }
 
@@ -43,7 +44,7 @@ class ProductController extends Controller
         $product->category_id = $request->input('category_id'); /*Es lo mismo $request->category_id*/
 
         //Se usa SAVE para realizar un INSERT en la tabla del producto
-        $product -> save();
+        $product->save();
 
         //Luego redirigimos al usuario al listado de productos
         return redirect('/admin/products');
@@ -51,7 +52,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('active', true)->orderBy('name')->get();
         $product = Product::find($id);
         return view('admin.products.edit')->with(compact('product', 'categories'));
     }
@@ -68,7 +69,7 @@ class ProductController extends Controller
         $product->long_description = $request->input('long_description');
         //A pesar de ser el mismo metodo, internamente entiende que se trata de un UPDATE y no crea un nuevo registro
         $product->category_id = $request->category_id;
-        $product -> save();
+        $product->save();
 
         return redirect('/admin/products');
     }
@@ -81,12 +82,38 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         //Por medio del metodo DELETE lo elimino
-        $product -> delete();
+        $product->delete();
 
         //Con return BACK, nos redirige directamente a la pagina donde estabamos al momento de realizar la accion, en este caso el listado de productos
         return back();
     }
 
+    public function delete(Request $request)
+    {
+        //Busco en todos los carros activos, los productos que se encuentren en el mismo.
+        $activeCarts = Cart::where('status_id', 1)->has('details')->get();
+        //Reviso todos lo carros encontrados
+        foreach ($activeCarts as $activeCart) {
+            //Dentro de cada carro, reviso los detalles
+            foreach ($activeCart->details as $detail) {
+                //Si en el detalle aparece el ID del producto, lo elimino
+                if ($detail->product_id == $request->productID) {
+                    //dd($detail);
+                    $detail->delete();
+                }
+            }
+        }
+        //Hago la eliminacion logica actualizando su estado de activo a falso
+        $product = Product::find($request->productID);
+        $product->active = false;
+        if ($product->save()) {
+            $updatedProduct = 'El producto fue eliminado correctamente.';
+            return redirect('/admin/products')->with(compact('updatedProduct'));
+        }
+
+        $error = 'No se pudo eliminar el producto.';
+        return redirect('/admin/products')->with(compact('error'));
+    }
     public function valid(Request $request)
     {
         //Realizo la validacion de los campos antes de proceder a guardar el producto
@@ -108,5 +135,4 @@ class ProductController extends Controller
         ];
         $this->validate($request, $rules, $messages);
     }
-
 }

@@ -102,7 +102,11 @@
 
   use App\Category;
   //El metodo HAS es un SQL JOIN en donde se establece que busque las categorias que tengan productos
-  $categories = Category::has('products')->orderBy('name')->get();
+  /*$categories = Category::where('active', true)->has('products')->whereExists(function ($query){
+    $query->select()->from('products')->where('active', true);
+})->orderBy('name')->get();*/
+
+  $categories = Category::where('active', true)->has('activeProducts')->orderBy('name')->get();
   ?>
 
   <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
@@ -221,32 +225,35 @@
 
   <!--Ahora hay que inicializar el script sobre el INPUT con ID search-->
   <script>
-    $(function() {
+    window.onload = function() {
+      localStorage.removeItem('__{{ url("/products/json") }}__data');
+      $(function() {
 
-      //Se debe inicializar el elemento que se pasa como parametro PRODUCTS que viene a ser la fuente SOURCE (CODIGO COPIADO DESDE EL EJEMPLO PORQUE UTILIZA EL MOTOR DE BUSQUEDA)
-      var products = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        //Se define un arreglo si queremos una busqueda acotada en determinados elementos
-        //local: ['hola', 'prueba1', 'prueba2', 'abcdwq']
+        //Se debe inicializar el elemento que se pasa como parametro PRODUCTS que viene a ser la fuente SOURCE (CODIGO COPIADO DESDE EL EJEMPLO PORQUE UTILIZA EL MOTOR DE BUSQUEDA)
+        var products = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.whitespace,
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          //Se define un arreglo si queremos una busqueda acotada en determinados elementos
+          //local: ['hola', 'prueba1', 'prueba2', 'abcdwq']
 
-        //Como se quiere utilizar una lista de productos que va a cambiar constantemente, se define un objeto JSON y se usa el atributo PREFETCH.
-        //Como usamos una base de datos, vamos a generar un objeto JSON a partir de los productos registrados. Es una ruta VER WEB.PHP
-        prefetch: '{{ url("/products/json") }}'
+          //Como se quiere utilizar una lista de productos que va a cambiar constantemente, se define un objeto JSON y se usa el atributo PREFETCH.
+          //Como usamos una base de datos, vamos a generar un objeto JSON a partir de los productos registrados. Es una ruta VER WEB.PHP
+          prefetch: '{{ url("/products/json") }}'
+        });
+
+        //Se selecciona el objeto con ID SEARCH y se le pasan 2 objetos por parametro.
+        $('#search').typeahead({
+          hint: false,
+          highlight: true,
+          minLength: 1
+        }, {
+          name: 'products',
+          source: products
+        });
       });
-
-      //Se selecciona el objeto con ID SEARCH y se le pasan 2 objetos por parametro.
-      $('#search').typeahead({
-        hint: false,
-        highlight: true,
-        minLength: 1
-      }, {
-        name: 'products',
-        source: products
-      });
-    });
+    }
   </script>
-  
+
   @yield('js_scripts')
   @livewireScripts
 </body>

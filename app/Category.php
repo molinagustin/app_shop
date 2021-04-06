@@ -32,6 +32,11 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function activeProducts()
+    {
+        return $this->hasMany(Product::class)->where('active', true);
+    }
+
     //Accesor para la imagen
     public function getFeaturedImageUrlAttribute()
     {

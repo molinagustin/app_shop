@@ -10,11 +10,24 @@
 
 <div class="main main-raised">
 
-
   <div class="container">
 
     <div class="section text-center">
       <h2 class="title">Listado de Productos</h2>
+
+      @if (session('updatedProduct'))
+      <div class="alert alert-success" role="alert">
+        {{ session('updatedProduct') }}
+      </div>
+      @endif
+
+      @if (session('error'))
+      <div class="alert alert-danger">
+        <ul>
+          {{ session('error') }}
+        </ul>
+      </div>
+      @endif
 
       <div class="team">
 
@@ -52,27 +65,27 @@
                 <td class="text-right">&dollar; {{$product->price}}</td>
                 <td class="td-actions text-center">
 
-                  <form method="post" action="{{ url('/admin/products/'.$product->id) }}">
+                  <!--<form method="post" action="{{ url('/admin/products/'.$product->id) }}">
                     @csrf
-                    @method('DELETE')
-                    <!--<input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')-->
+                  <!--<input type="hidden" name="_method" value="DELETE">
                     el @method('DELETE') es equivalente al INPUT HIDDEN-->
 
-                    <a href="{{ url('/products/' . $product->id) }}" rel="tooltip" data-placement="right" title="Ver Detalles" class="btn btn-info btn-simple btn-xs" target="_blank">
-                      <i class="fa fa-info-circle"></i>
-                    </a>
-                    <a href="{{ url('/admin/products/'.$product->id.'/edit') }}" rel="tooltip" data-placement="right" title="Editar" class="btn btn-success btn-simple btn-xs">
-                      <i class="fa fa-edit"></i>
-                    </a>
-                    <a href="{{ url('/admin/products/'.$product->id.'/images') }}" rel="tooltip" data-placement="right" title="Imágenes del Producto" class="btn btn-warning btn-simple btn-xs">
-                      <i class="fa fa-image"></i>
-                    </a>
+                  <a href="{{ url('/products/' . $product->id) }}" rel="tooltip" data-placement="right" title="Ver Detalles" class="btn btn-info btn-simple btn-xs" target="_blank">
+                    <i class="fa fa-info-circle"></i>
+                  </a>
+                  <a href="{{ url('/admin/products/'.$product->id.'/edit') }}" rel="tooltip" data-placement="right" title="Editar" class="btn btn-success btn-simple btn-xs">
+                    <i class="fa fa-edit"></i>
+                  </a>
+                  <a href="{{ url('/admin/products/'.$product->id.'/images') }}" rel="tooltip" data-placement="right" title="Imágenes del Producto" class="btn btn-warning btn-simple btn-xs">
+                    <i class="fa fa-image"></i>
+                  </a>
 
-                    <button type="submit" rel="tooltip" data-placement="right" title="Eliminar" class="btn btn-danger btn-simple btn-xs">
-                      <i class="fa fa-times"></i>
-                    </button>
-                  </form>
-                  
+                  <button type="button" rel="tooltip" data-toggle="modal" data-target="#modalProduct" data-placement="right" title="Eliminar" class="btn btn-danger btn-simple btn-xs" onclick="setProdId('{{ $product->id }}')">
+                    <i class="fa fa-times"></i>
+                  </button>
+                  <!--</form>-->
+
                 </td>
               </tr>
               @endforeach
@@ -95,7 +108,41 @@
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modalProduct" tabindex="-1" role="dialog" aria-labelledby="modalProductHeader" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalProductHeader"><b>Confirme la acción</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form method="post" action="{{ url('/admin/products/delete') }}">
+        @csrf
+        <input type="hidden" name="productID" id="prodId">
+        <div class="modal-body">
+          <h4 class="text-center">¿Está seguro que desea eliminar el producto?</h4>
+          <p class="text-center"><b>Al eliminarlo, también se eliminaran de los carros activos.</b></p>
+          <div class="text-center">
+            <button type="submit" class="btn btn-success">Confirmar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 
 @include('includes.footer')
+
+<script>
+  function setProdId($id) {
+    document.getElementById("prodId").value = $id;
+  }
+</script>
 
 @endsection

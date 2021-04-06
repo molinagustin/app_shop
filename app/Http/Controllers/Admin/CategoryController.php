@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use App\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         //Las obtengo paginadas al listado de categorias y las devuelvo en la vista
-        $categories = Category::orderBy('name')->paginate(5);
+        $categories = Category::where('active', true)->orderBy('name')->paginate(5);
         return view('admin.categories.index')->with(compact('categories'));
     }
 
@@ -141,5 +142,27 @@ class CategoryController extends Controller
     public function valid(Request $request)
     {   //Es una forma distinta de hacer la validacion a la vista en las categorias. VER CATEGORY MODEL
         $this->validate($request, Category::$rules, Category::$messages);
+    }
+
+    public function delete(Request $request)
+    {
+        //Busco los productos activos dentro de la categorias
+        $products = Product::where('active', true)->where('category_id', $request->categoryID)->get();
+        //Si hay algun producto activo, evito la baja de la categoría
+        if (Count($products) > 0) {
+            $error = 'No se pudo eliminar la categoría dado que todavía existen ' . Count($products) . ' productos activos, por favor delos de baja antes.';
+            return redirect('/admin/categories')->with(compact('error'));
+        }
+
+        //Modifico a la categoria su estado
+        $category = Category::find($request->categoryID);
+        $category->active = false;
+        if ($category->save()) {
+            $updatedCategory = 'La categoría fue eliminada correctamente.';
+            return redirect('/admin/categories')->with(compact('updatedCategory'));
+        }
+
+        $error = 'No se pudo eliminar la categoría.';
+        return redirect('/admin/categories')->with(compact('error'));
     }
 }

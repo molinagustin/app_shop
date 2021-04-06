@@ -10,7 +10,7 @@ class CategoryController extends Controller
     public function index()
     {
         //El metodo HAS es un SQL JOIN en donde se establece que busque las categorias que tengan productos
-        $categories = Category::has('products')->get();
+        $categories = Category::where('active', true)->has('activeProducts')->get();
         return view('categories.index')->with(compact('categories'));
     }
 
@@ -24,7 +24,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //Obtenemos los productos de una categoria en particular de forma paginada. Se los pasamos a la vista
-        $products = $category->products()->paginate(10);
+        $products = $category->activeProducts()->paginate(10);
 
         return view('categories.show')->with(compact('category', 'products'));
     }

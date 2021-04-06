@@ -13,7 +13,7 @@ class SearchController extends Controller
         $query = $request->input('query');
 
         //Buscamos los productos comparando con el nombre del producto y la query
-        $products = Product::where('name', 'LIKE', '%' . $query . '%')->paginate(5);
+        $products = Product::where('active', true)->where('name', 'LIKE', '%' . $query . '%')->paginate(5);
 
         //Si el producto es exactamente 1 y su nombre es equivalente a la query pasada por parametro, redirecciono al usuario a la pagina del producto
         if($products->count() == 1 && $products->first()->name == $query)
@@ -29,7 +29,7 @@ class SearchController extends Controller
     public function data()
     {
         //Como solo queremos los campos del nombre de los productos, utilizamos el metodo PLUCK que nos devuelve una columna en particular de todos los registros que buscamos
-        $products = Product::pluck('name');
+        $products = Product::where('active', true)->pluck('name');
         return $products;
     }
 }

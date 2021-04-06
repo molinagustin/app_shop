@@ -15,6 +15,20 @@
     <div class="section text-center">
       <h2 class="title">Listado de Categorías</h2>
 
+      @if (session('updatedCategory'))
+      <div class="alert alert-success" role="alert">
+        {{ session('updatedCategory') }}
+      </div>
+      @endif
+
+      @if (session('error'))
+      <div class="alert alert-danger">
+        <ul>
+          {{ session('error') }}
+        </ul>
+      </div>
+      @endif
+
       <div class="team">
 
         <div>
@@ -47,20 +61,20 @@
                 <td><img src="{{ $category->featured_image_url }}" height="50"></td>
                 <td class="td-actions text-center">
 
-                  <form method="post" action="{{ url('/admin/categories/'.$category->id) }}">
+                  <!--<form method="post" action="{{ url('/admin/categories/'.$category->id) }}">
                     @csrf
-                    @method('DELETE')
-                    <!--<input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')-->
+                  <!--<input type="hidden" name="_method" value="DELETE">
                     el @method('DELETE') es equivalente al INPUT HIDDEN-->
 
-                    <a href="{{ url('/admin/categories/'.$category->id.'/edit') }}" rel="tooltip" data-placement="right" title="Editar Categoría" class="btn btn-success btn-simple btn-xs">
-                      <i class="fa fa-edit"></i>
-                    </a>
+                  <a href="{{ url('/admin/categories/'.$category->id.'/edit') }}" rel="tooltip" data-placement="right" title="Editar Categoría" class="btn btn-success btn-simple btn-xs">
+                    <i class="fa fa-edit"></i>
+                  </a>
 
-                    <button type="submit" rel="tooltip" data-placement="right" title="Eliminar Categoría" class="btn btn-danger btn-simple btn-xs">
-                      <i class="fa fa-times"></i>
-                    </button>
-                  </form>
+                  <button type="button" rel="tooltip" data-toggle="modal" data-target="#modalCategory" data-placement="right" title="Eliminar Categoría" class="btn btn-danger btn-simple btn-xs" onclick="setCatId('{{ $category->id }}')">
+                    <i class="fa fa-times"></i>
+                  </button>
+                  <!--</form>-->
 
                 </td>
               </tr>
@@ -81,10 +95,43 @@
 
   </div>
 
-
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modalCategory" tabindex="-1" role="dialog" aria-labelledby="modalCategoryHeader" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCategoryHeader"><b>Confirme la acción</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form method="post" action="{{ url('/admin/categories/delete') }}">
+        @csrf
+        <input type="hidden" name="categoryID" id="catId">
+        <div class="modal-body">
+          <h4 class="text-center">¿Está seguro que desea eliminar la categoría?</h4>
+          <p class="text-center"><b>Asegurese de que no hayan productos activos dentro de dicha categoría.</b></p>
+          <div class="text-center">
+            <button type="submit" class="btn btn-success">Confirmar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 
 @include('includes.footer')
+
+<script>
+  function setCatId($id) {
+    document.getElementById("catId").value = $id;
+  }
+</script>
 
 @endsection

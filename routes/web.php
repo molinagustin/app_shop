@@ -32,7 +32,7 @@ Route::prefix('/home')->group(function () {
     Route::get('/cart', 'HomeController@index')->name('cart');
     Route::get('/orders', 'HomeController@index')->name('orders');
     Route::get('/settings', 'HomeController@index')->name('settings');
-    Route::post('', 'HomeController@update'); //Actualizar Datos del Usuario
+    Route::post('', 'HomeController@update'); //Actualizar Datos del Usuario Colocar / o nada en la ruta es lo mismo
 });
 
 Route::get('/search', 'SearchController@show'); //Realizar una busqueda de todos los productos dentro de una categoria
@@ -103,7 +103,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->namespace('Admin')->group
     Route::post('/products/{id}/edit', 'ProductController@update'); // Guardar los cambios del producto
     //Al usar el metodo DELETE, explicitamente estamos indicando que queremos borrar algo, por eso no lleva la palabar DELETE en la URL
     //Route::delete('/admin/products/{id}/delete', 'Admin\ProductController@destroy'); // Eliminar el registro de un producto
-    Route::delete('/products/{id}', 'ProductController@destroy');
+    //Route::delete('/products/{id}', 'ProductController@destroy'); //Eliminacion de registro de la bd
+    Route::post('/products/delete', 'ProductController@delete'); //Eliminacion logica
     //Otros metodos que podemos usar son PUT, PATCH y DELETE los cuales son variaciones del tipo POST
 
     //Listado de Imagenes y subir nuevas
@@ -120,7 +121,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->namespace('Admin')->group
     Route::get('/categories/{category}/edit', 'CategoryController@edit'); // Mostrar datos de un categoria
     Route::post('/categories/{category}/edit', 'CategoryController@update'); // Guardar los cambios de la categoria
     //Al usar el metodo DELETE, explicitamente estamos indicando que queremos borrar algo, por eso no lleva la palabar DELETE en la URL
-    Route::delete('/categories/{category}', 'CategoryController@destroy');
+    //Route::delete('/categories/{category}', 'CategoryController@destroy'); //Eliminacion de registro de la bd
+    Route::post('/categories/delete', 'CategoryController@delete'); //Eliminacion logica
 
     //Rutas de Ordenes de Compras
     Route::get('/orders', 'OrderController@index'); //Ver listado de pedidos realizados
