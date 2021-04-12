@@ -91,6 +91,16 @@
     .badge-warning[href] {
       background-color: #c67605;
     }
+
+    .whatsapp_button {
+      width: 1rem;
+      height: 1rem;
+      position: fixed;
+      right: 5rem;
+      bottom: 10%;
+      line-height: 80px;
+      z-index: 10;
+    }
   </style>
   <!--Estilos de Welcome.Blade.php-->
   @yield('styles')
@@ -202,6 +212,12 @@
   </nav>
 
   <div class="wrapper">
+    <div class="whatsapp_button">
+      <a href="https://api.whatsapp.com/send?phone=5492625663454" title="link a chat web whatsapp" target="_blank">
+        <img src="{{ asset('img/whatsapp_icon.png') }}" alt="icono whatsapp">
+      </a>
+    </div>
+
     @yield('content')
   </div>
 
