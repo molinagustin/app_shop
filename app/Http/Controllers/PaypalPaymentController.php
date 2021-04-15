@@ -61,14 +61,14 @@ class PaypalPaymentController extends Controller
                 'custom_id' => 'Venta #' . $cart[0]->id,
                 'soft_descriptor' => 'Productos Varios',
                 "amount" => [
-                    "value" => $saleValue + 5,
+                    "value" => number_format((float)($saleValue) + 5, 2, '.', ''),
                     "currency_code" => "USD",
                     'breakdown' =>
                     [
                         'item_total' =>
                         [
                             'currency_code' => 'USD',
-                            'value' => $saleValue,
+                            'value' => number_format((float)($saleValue), 2, '.', ''),
                         ],
                         'shipping' =>
                         [
@@ -206,7 +206,9 @@ class PaypalPaymentController extends Controller
         $to_Currency = urlencode(strtoupper($to_Currency));
         $url = Http::get('https://free.currencyconverterapi.com/api/v3/convert?q=' . $from_Currency . '_' . $to_Currency . '&compact=ultra&apiKey=ff95b55ee6a7ef3dd027');
         $json = json_decode($url, true);
-        return $json[$from_Currency . '_' . $to_Currency];
+        //dd(number_format((float)($json[$from_Currency . '_' . $to_Currency]), 2, '.', ''));
+        return $json[$from_Currency . '_' . $to_Currency];        
+        //return number_format((float)($json[$from_Currency . '_' . $to_Currency]), 2, '.', '');
     }
 
     public function updateCartPayed()
@@ -220,7 +222,7 @@ class PaypalPaymentController extends Controller
         $cart->pay_date = Carbon::now();
         //Se realiza un UPDATE
         $cart->save();
-
+        
         //A traves de una instancia de Mailable, enviamos un correo a todos los administradores
         $admins = User::whereIn('rol_id', [1, 2])->get();
         Mail::to($admins)->send(new NewOrder(auth()->user(), $cart)); //Le enviamos por parametros el usuario que realizo el pedido y su carro de compras
