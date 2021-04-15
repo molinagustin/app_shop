@@ -11,6 +11,7 @@ use App\Mail\OrderRequested;
 use Carbon\Carbon;
 use App\User;
 use Mail;
+use Illuminate\Support\Facades\Http;
 
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
@@ -203,7 +204,7 @@ class PaypalPaymentController extends Controller
     {
         $from_Currency = urlencode(strtoupper($from_Currency));
         $to_Currency = urlencode(strtoupper($to_Currency));
-        $url = file_get_contents('http://free.currencyconverterapi.com/api/v3/convert?q=' . $from_Currency . '_' . $to_Currency . '&compact=ultra&apiKey=ff95b55ee6a7ef3dd027');
+        $url = Http::get('https://free.currencyconverterapi.com/api/v3/convert?q=' . $from_Currency . '_' . $to_Currency . '&compact=ultra&apiKey=ff95b55ee6a7ef3dd027');
         $json = json_decode($url, true);
         return $json[$from_Currency . '_' . $to_Currency];
     }
