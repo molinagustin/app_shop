@@ -13,8 +13,9 @@ class SearchController extends Controller
         $query = $request->input('query');
 
         //Buscamos los productos comparando con el nombre del producto y la query
-        $products = Product::where('active', true)->where('name', 'LIKE', '%' . $query . '%')->paginate(5);
-
+        $products = Product::where('active', true)->where('name', 'LIKE', '%' . $query . '%')->paginate(6);
+        //Cuento los productos para enviar dicha cantidad
+        $productsCount = $products->total();
         //Si el producto es exactamente 1 y su nombre es equivalente a la query pasada por parametro, redirecciono al usuario a la pagina del producto
         if($products->count() == 1 && $products->first()->name == $query)
         {
@@ -23,7 +24,7 @@ class SearchController extends Controller
         }
 
         //Devolvemos una vista con resultados
-        return view('search.show')->with(compact('products', 'query'));
+        return view('search.show')->with(compact('products', 'query', 'productsCount'));
     }
 
     public function data()

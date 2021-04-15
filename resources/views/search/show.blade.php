@@ -26,7 +26,7 @@
             </div>
 
             <div class="description text-center">
-                <p>Se encontraron {{ $products->count() }} resultados de la búsqueda de {{ $query }}.</p>
+                <p>Se encontraron {{ $productsCount }} resultados de la búsqueda de {{ $query }}.</p>
             </div>
 
             @if (session('notification'))
