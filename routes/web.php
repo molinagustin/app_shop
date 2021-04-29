@@ -60,6 +60,11 @@ Route::get('/paypal/pay', 'PaypalPaymentController@pay');
 Route::get('/paypal/cancelled', 'PaypalPaymentController@cancel');
 Route::get('/paypal/status', 'PaypalPaymentController@status');
 
+//MercadoPago
+Route::get('/mercadopago/pay', 'MercadoPagoController@pay'); //Formulario
+Route::get('/mercadopago/cancelled', 'MercadoPagoController@cancel'); //Vuelta Carro
+Route::post('/mercadopago/process', 'MercadoPagoController@processForm'); //Procesa los datos enviados por el formulario hacia MP
+
 //Utilizamos un middleware para asociarlo a un grupo de rutas, de esta forma se aplicara a cualquier ruta dentro del grupo elegido
 //Para usar el prefijo 'admin' se le aplico un alias al AdminMiddleware.php en el archivo Kernel.php dentro de App\Http
 /*Route::middleware(['auth', 'admin'])->group(function () {
