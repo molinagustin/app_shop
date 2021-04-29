@@ -9,6 +9,18 @@
 
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <!--Etiquetas Meta para SEO-->
+  <meta http-equiv="Content-Type" content="text/html; ISO-8859-1">
+  <META NAME="DC.Language" SCHEME="RFC1766" CONTENT="Spanish">
+  <META NAME="AUTHOR" CONTENT="AlVenta Group">
+  <META NAME="REPLY-TO" CONTENT="admin@alventa.com.ar">
+  <LINK REV="made" href="mailto:admin@alventa.com.ar">
+  <META NAME="DESCRIPTION" CONTENT="Tu lugar de compra-venta en General Alvear de forma sencilla y comoda.">
+  <META NAME="KEYWORDS" CONTENT="Alventa,alventa,local,compra,venta,intercambio,General,Alvear,Gral,e-commerce,online,tienda">
+  <META NAME="Resource-type" CONTENT="Catalog">
+  <META NAME="DateCreated" CONTENT="Thu, 29 April 2021 00:00:00 GMT-3">
+  <META NAME="Revisit-after" CONTENT="1 days">
+  <META NAME="robots" content="ALL">
 
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
