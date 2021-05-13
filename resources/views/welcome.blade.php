@@ -141,7 +141,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="bmd-label-floating">Nombre</label>
-                  <input type="text" class="form-control" name="name">
+                  <input type="text" class="form-control" name="name" onkeypress="isNotNumber(event);">
                 </div>
               </div>
 
@@ -173,3 +173,15 @@
 @include('includes.footer')
 
 @endsection
+<script>
+    // this prevents from typing non-number text, including "e".
+    function isNotNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+            return true;
+        } else {
+            evt.preventDefault();
+        }
+    }
+</script>
