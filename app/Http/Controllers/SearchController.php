@@ -7,18 +7,23 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function show(Request $request)  
+    public function show(Request $request)
     {
-        //Guardamos los datos introducidos en el formulario
-        $query = $request->input('query');
+        if ($request->input('query')) {
+            //Guardamos los datos introducidos en el formulario
+            $query = $request->input('query');
+            session(['query' => $query]);
+        }
+        else{
+            $query = session('query');
+        }
 
         //Buscamos los productos comparando con el nombre del producto y la query
         $products = Product::where('active', true)->where('name', 'LIKE', '%' . $query . '%')->paginate(6);
         //Cuento los productos para enviar dicha cantidad
         $productsCount = $products->total();
         //Si el producto es exactamente 1 y su nombre es equivalente a la query pasada por parametro, redirecciono al usuario a la pagina del producto
-        if($products->count() == 1 && $products->first()->name == $query)
-        {
+        if ($products->count() == 1 && $products->first()->name == $query) {
             $id = $products->first()->id;
             return redirect("products/$id"); //Usar comillas dobles es igual a '/products/' . $id; Es decir, las comillas dobles interpretan las variables dentro y no hace falta concatenar
         }

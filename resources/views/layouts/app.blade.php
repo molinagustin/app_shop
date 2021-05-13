@@ -169,7 +169,7 @@
           <span class="input-group-addon">
             <i class="material-icons" style="color: white;">search</i>
           </span>
-          <input type="text" class="form-control text-center" placeholder="¿QUÉ PRODUCTO BUSCAS?" name="query" id="search" style="height: 2em; background-image: linear-gradient(to top, #37bdb2 4px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px); width: 20em; background-color: white; border-radius: 20em;">
+          <input type="text" class="form-control text-center" placeholder="¿QUÉ PRODUCTO BUSCAS?" name="query" id="search" style="height: 2em; background-image: linear-gradient(to top, #37bdb2 4px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px); width: 20em; background-color: white; border-radius: 20em;" required>
           <button type="submit" class="btn btn_ctm btn-link" style="color: white; border-color:white; border:solid; border-radius:20em;">Buscar</button>
         </div>
 
