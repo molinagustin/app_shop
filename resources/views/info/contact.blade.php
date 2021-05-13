@@ -50,7 +50,7 @@
 
                                 <div class="form-group">
                                     <label for="name">Nombre</label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Tu Nombre" required value="{{ old('name', (auth()->check()) ? auth()->user()->name : '') }}" />
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Tu Nombre" required value="{{ old('name', (auth()->check()) ? auth()->user()->name : '') }}" onkeypress="isNotNumber(event);" />
                                 </div>
 
                                 <div class="form-group">
@@ -91,3 +91,15 @@
 @include('includes.footer')
 
 @endsection
+<script>
+    // this prevents from typing non-number text, including "e".
+    function isNotNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+            return true;
+        } else {
+            evt.preventDefault();
+        }
+    }
+</script>
