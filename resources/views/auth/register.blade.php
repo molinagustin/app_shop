@@ -54,7 +54,7 @@
                                         <i class="material-icons">face</i>
                                     </span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Nombre de Usuario" name="name" value="{{ old('name', $name) }}" required autofocus>
+                                <input type="text" class="form-control" placeholder="Nombre de Usuario" name="name" value="{{ old('name', $name) }}" required autofocus onkeypress="isNotNumber(event);">
                             </div>
 
                             <div div class="input-group">
@@ -72,7 +72,7 @@
                                         <i class="material-icons">phone</i>
                                     </span>
                                 </div>
-                                <input type="phone" class="form-control" placeholder="Teléfono" name="phone" value="{{ old('phone') }}">
+                                <input type="phone" class="form-control" placeholder="Teléfono" name="phone" value="{{ old('phone') }}" onkeypress="isNumber2(event);">
                             </div>
 
                             <div class="input-group">
@@ -118,3 +118,37 @@
 
 </div>
 @endsection
+<script>
+    // this prevents from typing non-number text, including "e".
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+            evt.preventDefault();
+        } else {
+            return true;
+        }
+    }
+
+    // this prevents from typing non-number text, including "e" and ".".
+    function isNumber2(evt) {
+        evt = (evt) ? evt : window.event;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) || charCode == 46) {
+            evt.preventDefault();
+        } else {
+            return true;
+        }
+    }
+
+    // this prevents from typing non-number text, including "e".
+    function isNotNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+            return true;
+        } else {
+            evt.preventDefault();
+        }
+    }
+</script>
